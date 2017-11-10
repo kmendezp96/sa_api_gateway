@@ -24,7 +24,7 @@ class BuyController < ApplicationController
             'Content-Type' => 'application/json'
             }
           }
-          results = HTTParty.post("http://192.168.99.102:3002/sales", options)
+          results = HTTParty.post("http://192.168.99.101:3002/sales", options)
           options = {
               :body => {
               :stock => result_product['stock'].to_f-1
@@ -34,7 +34,7 @@ class BuyController < ApplicationController
             }
           }
           head 201
-          results = HTTParty.patch("http://192.168.99.102:3000/products/"+@product.to_s, options)
+          results = HTTParty.patch("http://192.168.99.101:3000/products/"+@product.to_s, options)
         else
           error("No content", 204, "Producto con stock insuficiente.")
         end
@@ -47,7 +47,7 @@ class BuyController < ApplicationController
     @user = params[:user_id]
     result_user = checkUser(@user)
     if result_user.include? "firstName"
-      results= HTTParty.get("http://192.168.99.102:3002/sales")
+      results= HTTParty.get("http://192.168.99.101:3002/sales")
       data = results.parsed_response
       sales=[]
       data['list'].each do |item|
@@ -66,12 +66,12 @@ class BuyController < ApplicationController
   end
 
   def checkProduct(id)
-    results = HTTParty.get("http://192.168.99.102:3000/products/" + id.to_s)
+    results = HTTParty.get("http://192.168.99.101:3000/products/" + id.to_s)
     return results
   end
 
   def checkUser(id)
-    results = HTTParty.get("http://192.168.99.102:3001/users/" + id.to_s)
+    results = HTTParty.get("http://192.168.99.101:3001/users/" + id.to_s)
     return results
   end
 end
